@@ -2,13 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Home } from "react-feather";
 
-import { getAuth, logoutUser } from "../redux/features/auth/authSlice";
+import { getUserAuth, logoutUser } from "../redux/features/auth/authSlice";
 
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const user = useSelector(getAuth);
+    const user = useSelector(getUserAuth);
 
     const handleLogout = () => {
         dispatch(logoutUser()).then(() => {
@@ -17,7 +17,7 @@ const Header = () => {
     };
 
     return (
-        <nav className="bg-gradient-to-r from-red-500 to-orange-500 p-4">
+        <nav className="bg-green-500 p-4">
             <div className="container mx-auto flex justify-between items-center">
                 <Link to="/" className="text-white text-lg font-semibold flex gap-2">
                     <Home />
@@ -31,14 +31,14 @@ const Header = () => {
                         </Link>
                         <button
                             onClick={handleLogout}
-                            className="bg-orange-500 text-white hover:bg-orange-600 font-semibold py-2 px-4 rounded outline">
+                            className="bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded outline">
                             Logout
                         </button>
                     </div>
                 ) : (
                     <Link
                         to={"login"}
-                        className="bg-orange-500 text-white hover:bg-orange-600 font-semibold py-2 px-4 rounded outline">
+                        className="bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded outline">
                         Login
                     </Link>
                 )}
