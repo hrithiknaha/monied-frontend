@@ -7,7 +7,7 @@ import { retrieveAccessToken } from "../../../configs/helpers";
 const initialState = {
     loading: false,
     user: {
-        isAuthenticated: Boolean(retrieveAccessToken()?.token),
+        isLoggedIn: Boolean(retrieveAccessToken()?.token),
         username: retrieveAccessToken()?.username,
         token: retrieveAccessToken()?.token,
         exp: retrieveAccessToken()?.exp,
@@ -45,7 +45,7 @@ const authSlice = createSlice({
             localStorage.setItem("token", token);
 
             state.loading = false;
-            state.user.isAuthenticated = true;
+            state.user.isLoggedIn = true;
             state.user.username = username;
             state.user.token = token;
             state.user.exp = exp;
@@ -60,7 +60,7 @@ const authSlice = createSlice({
             localStorage.setItem("token", token);
 
             state.loading = false;
-            state.user.isAuthenticated = true;
+            state.user.isLoggedIn = true;
             state.user.username = username;
             state.user.token = token;
             state.user.exp = exp;
@@ -70,7 +70,7 @@ const authSlice = createSlice({
         });
         builder.addCase(logoutUser.fulfilled, (state) => {
             state.loading = false;
-            state.user.isAuthenticated = false;
+            state.user.isLoggedIn = false;
             state.user.username = null;
             state.user.token = null;
             state.user.exp = null;
