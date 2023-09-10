@@ -12,13 +12,13 @@ const axiosPublicInstance = axios.create({
     },
 });
 
-const axiosPrivateInstance = (auth) =>
+const axiosPrivateInstance = (token) =>
     axios.create({
         baseURL,
         timeout: 10000,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
+            Authorization: `Bearer ${token}`,
         },
     });
 
