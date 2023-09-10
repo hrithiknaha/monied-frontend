@@ -29,7 +29,7 @@ const IncomeTable = ({ incomes }) => {
                         .map((income) => {
                             return (
                                 <tr key={income._id}>
-                                    <td class="px-2 py-4">{income.name}</td>
+                                    <td class="px-2 py-4 whitespace-nowrap">{income.name}</td>
                                     <td class="px-2 py-4 whitespace-nowrap">₹{income.amount}</td>
                                     <td class="px-2 py-4 whitespace-nowrap">
                                         {moment(income.transaction_date).format("DD-MM-YYYY")}

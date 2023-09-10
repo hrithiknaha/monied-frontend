@@ -4,8 +4,10 @@ import { useSelector } from "react-redux";
 
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
+
 import ExpenseTable from "../components/ExpenseTable";
 import IncomeTable from "../components/IncomeTable";
+import RepaymentTable from "../components/RepaymentTable";
 
 const AccountPage = () => {
     const { accountId } = useParams();
@@ -39,17 +41,26 @@ const AccountPage = () => {
                                     {account.entity_name}
                                 </p>
                             </div>
-                            <p className="pt-4 text-4xl">₹{account.balance}</p>
+                            <p className="pt-4 text-4xl">
+                                ₹{account.type === "BANK" ? account.balance : account.amount_due}
+                            </p>
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-xl bg-green-200 font-semibold">Expenses</h2>
+                            <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Expenses</h2>
                             <ExpenseTable expenses={account.expenses} />
                         </div>
-                        <div className="mt-8">
-                            <h2 className="text-xl bg-green-200 font-semibold">Incomes</h2>
-                            <IncomeTable incomes={account.incomes} />
-                        </div>
+                        {account.type === "BANK" ? (
+                            <div className="mt-8">
+                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Incomes</h2>
+                                <IncomeTable incomes={account.incomes} />
+                            </div>
+                        ) : (
+                            <div className="mt-8">
+                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Repayments</h2>
+                                <RepaymentTable repayments={account.repayments} />
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
