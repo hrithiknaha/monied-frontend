@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Home } from "react-feather";
+import { FaHouseChimney } from "react-icons/fa6";
 
 import { getUserAuth, logoutUser } from "../redux/features/auth/authSlice";
 
@@ -19,8 +19,8 @@ const Header = () => {
     return (
         <nav className="bg-green-500 p-4">
             <div className="container mx-auto flex justify-between items-center">
-                <Link to="/" className="text-white text-lg font-semibold flex gap-2">
-                    <Home />
+                <Link to="/" className="text-white text-lg font-semibold flex items-center gap-2">
+                    <FaHouseChimney />
                     Monied
                 </Link>
 
