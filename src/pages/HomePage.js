@@ -9,7 +9,7 @@ import CreditCard from "../components/CreditCard";
 const HomePage = () => {
     const auth = useSelector(getUserAuth);
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [bankAccounts, setBankAccounts] = useState([]);
     const [creditCards, setCreditCards] = useState([]);
 
@@ -26,18 +26,22 @@ const HomePage = () => {
     return (
         <div className="min-h-screen  bg-gray-100">
             <div className="py-4 mx-auto container px-4">
-                <div className="pt-4 flex flex-col gap-4">
-                    <div className="flex flex-wrap gap-2 justify-between">
-                        {bankAccounts.map((account) => (
-                            <AccountCard key={account._id} account={account} />
-                        ))}
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <div className="pt-4 flex flex-col gap-4">
+                        <div className="flex flex-wrap gap-2 justify-between">
+                            {bankAccounts.map((account) => (
+                                <AccountCard key={account._id} account={account} />
+                            ))}
+                        </div>
+                        <div className="flex flex-wrap gap-2 justify-between">
+                            {creditCards.map((creditcard) => (
+                                <CreditCard key={creditcard._id} creditcard={creditcard} />
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex flex-wrap gap-2 justify-between">
-                        {creditCards.map((creditcard) => (
-                            <CreditCard key={creditcard._id} creditcard={creditcard} />
-                        ))}
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
