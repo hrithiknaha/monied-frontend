@@ -25,8 +25,8 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen  bg-gray-100">
-            <div className="mx-auto container px-4">
-                <div className="py-8 flex flex-col gap-4">
+            <div className="py-4 mx-auto container px-4">
+                <div className="pt-4 flex flex-col gap-4">
                     <div className="flex flex-wrap gap-2 justify-between">
                         {bankAccounts.map((account) => (
                             <AccountCard key={account._id} account={account} />
