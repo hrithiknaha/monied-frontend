@@ -47,17 +47,21 @@ const AccountPage = () => {
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Expenses</h2>
+                            <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">All Expenses</h2>
                             <ExpenseTable expenses={account.expenses} />
                         </div>
                         {account.type === "BANK" ? (
                             <div className="mt-8">
-                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Incomes</h2>
+                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">
+                                    All Incomes
+                                </h2>
                                 <IncomeTable incomes={account.incomes} />
                             </div>
                         ) : (
                             <div className="mt-8">
-                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">Repayments</h2>
+                                <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">
+                                    All Repayments
+                                </h2>
                                 <RepaymentTable repayments={account.repayments} />
                             </div>
                         )}
