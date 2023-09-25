@@ -8,6 +8,9 @@ import { getUserAuth } from "../redux/features/auth/authSlice";
 import ExpenseTable from "../components/ExpenseTable";
 import IncomeTable from "../components/IncomeTable";
 import RepaymentTable from "../components/RepaymentTable";
+import AccountExpenseModal from "../components/AccountExpenseModal";
+import AccountIncomeModal from "../components/AccountIncomeModal";
+import AccountRepaymentModal from "../components/AccountRepaymentModal";
 
 const AccountPage = () => {
     const { accountId } = useParams();
@@ -16,6 +19,10 @@ const AccountPage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [account, setAccount] = useState({});
+
+    const [openAccountExpenseModal, setopenAccountExpenseModal] = useState(false);
+    const [openAccountIncomeModal, setopenAccountIncomeModal] = useState(false);
+    const [openAccountRepaymentModal, setopenAccountRepaymentModal] = useState(false);
 
     useEffect(() => {
         const axiosInstance = axiosPrivateInstance(auth.token);
@@ -37,16 +44,53 @@ const AccountPage = () => {
                             <p className="text-xs text-gray-500">{account.type}</p>
                             <div className="flex items-center justify-between gap-2 w-full">
                                 <h3 className="text-2xl font-semibold">{account.name}</h3>
-                                <p className="text-xs text-white bg-purple-500 px-1 py-2 rounded-lg">
+                                <p className="text-xs text-white bg-purple-500 px-2 py-2 rounded-lg">
                                     {account.entity_name}
                                 </p>
                             </div>
-                            <p className="pt-4 text-4xl">
-                                ₹{account.type === "BANK" ? account.balance : account.amount_due}
-                            </p>
+
+                            {account.type === "BANK" ? (
+                                <div>
+                                    <p className="pt-4 text-4xl">₹{account.balance}</p>
+                                    <div className="flex justify-center items-center my-4">
+                                        <button
+                                            onClick={() => setopenAccountIncomeModal(true)}
+                                            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-4">
+                                            Add Income
+                                        </button>
+                                        <button
+                                            onClick={() => setopenAccountExpenseModal(true)}
+                                            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg">
+                                            Add Expense
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <p className="pt-4 text-4xl">₹{account.amount_due}</p>
+                                    <div className="flex justify-center items-center my-4">
+                                        <button
+                                            onClick={() => setopenAccountRepaymentModal(true)}
+                                            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-4">
+                                            Add Repayment
+                                        </button>
+                                        <button
+                                            onClick={() => setopenAccountExpenseModal(true)}
+                                            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg">
+                                            Add Expense
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
-                        <div className="mt-8">
+                        {openAccountIncomeModal && <AccountIncomeModal closeModal={setopenAccountIncomeModal} />}
+                        {openAccountExpenseModal && <AccountExpenseModal closeModal={setopenAccountExpenseModal} />}
+                        {openAccountRepaymentModal && (
+                            <AccountRepaymentModal closeModal={setopenAccountRepaymentModal} />
+                        )}
+
+                        <div className="mt-2">
                             <h2 className="text-2xl font-semibold bg-green-500 text-white py-2 pl-4">All Expenses</h2>
                             <ExpenseTable expenses={account.expenses} />
                         </div>
