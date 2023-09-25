@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function AccountRepaymentModal({ closeModal }) {
+function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateInstance, auth }) {
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
@@ -8,16 +8,26 @@ function AccountRepaymentModal({ closeModal }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Name:", name);
-        console.log("Amount:", amount);
-        console.log("Date:", date);
 
-        console.log({ name, amount, date });
-        closeModal(false);
+        const axiosInstance = axiosPrivateInstance(auth.token);
+
+        const payload = {
+            name,
+            amount: parseInt(amount),
+            date,
+            account_id: repaymentFromAccount,
+            repayment_account_id: accountId,
+        };
+
+        axiosInstance.post(`/api/repayments/add`, payload).then(({ data }) => {
+            closeModal(false);
+            window.location.reload(false);
+        });
     };
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
+
         return () => {
             document.body.style.overflow = "auto";
         };
@@ -38,7 +48,7 @@ function AccountRepaymentModal({ closeModal }) {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Income Name"
+                            placeholder="Repayment Name"
                             required
                         />
                     </div>
@@ -53,7 +63,7 @@ function AccountRepaymentModal({ closeModal }) {
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Income Amount"
+                            placeholder="Repayment Amount"
                             required
                         />
                     </div>
@@ -83,8 +93,13 @@ function AccountRepaymentModal({ closeModal }) {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                             <option value="">Select Account</option>
-                            <option value="Food">ICICI BANK</option>
-                            <option value="Transportation">HDFC BANK</option>
+                            {accounts.map((account) => {
+                                return (
+                                    <option key={account._id} value={account._id}>
+                                        {account.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
                     <div className="flex justify-end">
