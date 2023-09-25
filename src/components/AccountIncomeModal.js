@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 
-function AccountIncomeModal({ closeModal }) {
+function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth }) {
     const [name, setName] = useState("");
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState(null);
     const [date, setDate] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Name:", name);
-        console.log("Amount:", amount);
-        console.log("Date:", date);
 
-        console.log({ name, amount, date });
-        closeModal(false);
+        const axiosInstance = axiosPrivateInstance(auth.token);
+
+        const payload = { name, amount: parseInt(amount), date, account_id: accountId };
+
+        axiosInstance.post(`/api/incomes/add`, payload).then(({ data }) => {
+            closeModal(false);
+            window.location.reload(false);
+        });
     };
 
     useEffect(() => {

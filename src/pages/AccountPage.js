@@ -19,6 +19,8 @@ const AccountPage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [account, setAccount] = useState({});
+    const [categoriesMonth, setCategoriesMonth] = useState([]);
+    const [allAccounts, setAllAccounts] = useState([]);
 
     const [openAccountExpenseModal, setopenAccountExpenseModal] = useState(false);
     const [openAccountIncomeModal, setopenAccountIncomeModal] = useState(false);
@@ -30,6 +32,18 @@ const AccountPage = () => {
         axiosInstance.get(`/api/accounts/${accountId}`).then(({ data }) => {
             setAccount(data.data);
             setIsLoading(false);
+        });
+    }, []);
+
+    useEffect(() => {
+        const axiosInstance = axiosPrivateInstance(auth.token);
+
+        axiosInstance.get(`/api/categories`).then(({ data }) => {
+            setCategoriesMonth(data.data);
+        });
+
+        axiosInstance.get(`/api/accounts?type=BANK`).then(({ data }) => {
+            setAllAccounts(data.data);
         });
     }, []);
 
@@ -84,10 +98,31 @@ const AccountPage = () => {
                             )}
                         </div>
 
-                        {openAccountIncomeModal && <AccountIncomeModal closeModal={setopenAccountIncomeModal} />}
-                        {openAccountExpenseModal && <AccountExpenseModal closeModal={setopenAccountExpenseModal} />}
+                        {openAccountIncomeModal && (
+                            <AccountIncomeModal
+                                closeModal={setopenAccountIncomeModal}
+                                accountId={accountId}
+                                axiosPrivateInstance={axiosPrivateInstance}
+                                auth={auth}
+                            />
+                        )}
+                        {openAccountExpenseModal && (
+                            <AccountExpenseModal
+                                closeModal={setopenAccountExpenseModal}
+                                categoriesMonth={categoriesMonth}
+                                accountId={accountId}
+                                axiosPrivateInstance={axiosPrivateInstance}
+                                auth={auth}
+                            />
+                        )}
                         {openAccountRepaymentModal && (
-                            <AccountRepaymentModal closeModal={setopenAccountRepaymentModal} />
+                            <AccountRepaymentModal
+                                closeModal={setopenAccountRepaymentModal}
+                                accounts={allAccounts}
+                                accountId={accountId}
+                                axiosPrivateInstance={axiosPrivateInstance}
+                                auth={auth}
+                            />
                         )}
 
                         <div className="mt-2">

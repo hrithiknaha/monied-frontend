@@ -1,21 +1,38 @@
 import { useState, useEffect } from "react";
 
-function AccountExpenseModal({ closeModal }) {
+function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPrivateInstance, auth }) {
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
-    const [selectedCategoryMonth, setSelectedCategoryMonth] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [category, setCategory] = useState("");
+
+    const [selectedCategoryMonthId, setSelectedCategoryMonthId] = useState("");
+    const [categoriesTitle, setCategoriesTitle] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Name:", name);
-        console.log("Amount:", amount);
-        console.log("Date:", date);
 
-        console.log({ name, amount, date });
-        closeModal(false);
+        const axiosInstance = axiosPrivateInstance(auth.token);
+
+        const payload = {
+            name,
+            amount: parseInt(amount),
+            date,
+            category_name: category,
+            account_id: accountId,
+            category_id: selectedCategoryMonthId,
+        };
+
+        axiosInstance.post(`/api/expenses/add`, payload).then(({ data }) => {
+            closeModal(false);
+            window.location.reload(false);
+        });
     };
+
+    useEffect(() => {
+        const categoryMonth = categoriesMonth.filter((category) => category._id === selectedCategoryMonthId)[0];
+        setCategoriesTitle(categoryMonth?.categories);
+    }, [selectedCategoryMonthId]);
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -80,14 +97,18 @@ function AccountExpenseModal({ closeModal }) {
                         <select
                             id="categoryMonth"
                             name="categoryMonth"
-                            value={selectedCategoryMonth}
-                            onChange={(e) => setSelectedCategoryMonth(e.target.value)}
+                            value={selectedCategoryMonthId}
+                            onChange={(e) => setSelectedCategoryMonthId(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                             <option value="">Select a Category Month</option>
-                            <option value="Food">Food</option>
-                            <option value="Transportation">Transportation</option>
-                            <option value="Entertainment">Entertainment</option>
+                            {categoriesMonth.map((category) => {
+                                return (
+                                    <option key={category._id} value={category._id}>
+                                        {category.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
                     <div className="mb-4">
@@ -97,14 +118,18 @@ function AccountExpenseModal({ closeModal }) {
                         <select
                             id="category"
                             name="category"
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
                             <option value="">Select a Category</option>
-                            <option value="Food">Food</option>
-                            <option value="Transportation">Transportation</option>
-                            <option value="Entertainment">Entertainment</option>
+                            {categoriesTitle?.map((category) => {
+                                return (
+                                    <option key={category.title} value={category.title}>
+                                        {category.title}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </div>
                     <div className="flex justify-end">
