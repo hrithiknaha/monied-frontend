@@ -26,6 +26,11 @@ const ExpenseTable = ({ expenses }) => {
                             className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Date
                         </th>
+                        <th
+                            scope="col"
+                            className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Account
+                        </th>
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -40,6 +45,7 @@ const ExpenseTable = ({ expenses }) => {
                                     <td className="px-2 py-4 whitespace-nowrap">
                                         {moment(expense.transaction_date).format("DD-MM-YYYY")}
                                     </td>
+                                    <td className="px-2 py-4 whitespace-nowrap">{expense.account.account_name}</td>
                                 </tr>
                             );
                         })}

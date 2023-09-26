@@ -39,7 +39,7 @@ const IncomeTable = ({ incomes }) => {
                                     <td className="px-2 py-4 whitespace-nowrap">
                                         {moment(income.transaction_date).format("DD-MM-YYYY")}
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap">{income?.account.account_name}</td>
+                                    <td className="px-2 py-4 whitespace-nowrap">{income.account.account_name}</td>
                                 </tr>
                             );
                         })}
