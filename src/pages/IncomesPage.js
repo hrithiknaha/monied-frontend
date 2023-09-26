@@ -6,7 +6,7 @@ import { axiosPrivateInstance } from "../configs/axios";
 
 import IncomeTable from "../components/IncomeTable";
 
-const Incomes = () => {
+const IncomesPage = () => {
     const auth = useSelector(getUserAuth);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -38,4 +38,4 @@ const Incomes = () => {
     );
 };
 
-export default Incomes;
+export default IncomesPage;
