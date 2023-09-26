@@ -51,35 +51,35 @@ const Header = () => {
                     )}
                 </div>
                 <div className="pt-4 text-2xl text-white flex gap-1 justify-between items-center">
-                    <div className="text-center flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         <Link to="/">
                             <AiFillBank />
                         </Link>
                         <p className="text-xs">Accounts</p>
                     </div>
 
-                    <div className="text-center flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         <Link to="/incomes">
                             <AiFillSafetyCertificate />
                         </Link>
                         <p className="text-xs">Incomes</p>
                     </div>
 
-                    <div className="text-center flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         <Link to="/expenses">
                             <AiFillMoneyCollect />
                         </Link>
                         <p className="text-xs">Expenses</p>
                     </div>
 
-                    <div className="text-center flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         <Link to="/repayments">
                             <HiDownload />
                         </Link>
                         <p className="text-xs">Repayments</p>
                     </div>
 
-                    <div className="text-center flex flex-col items-center">
+                    <div className="flex flex-col items-center">
                         <Link to="/categories">
                             <AiFillProfile />
                         </Link>
