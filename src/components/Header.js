@@ -49,18 +49,22 @@ const Header = () => {
                         </Link>
                     )}
                 </div>
-                <div className="pt-4 text-2xl text-white flex gap-1 justify-between">
+                <div className="pt-4 text-2xl text-white flex gap-1 justify-between items-center">
                     <Link to="/">
                         <AiFillBank />
+                        <p className="text-xs">Accounts </p>
                     </Link>
                     <Link to="/incomes">
                         <AiFillSafetyCertificate />
+                        <p className="text-xs">Incomes </p>
                     </Link>
                     <Link to="/expenses">
                         <AiFillMoneyCollect />
+                        <p className="text-xs">Expenses </p>
                     </Link>
                     <Link to="/categories">
                         <AiFillProfile />
+                        <p className="text-xs">Categories </p>
                     </Link>
                 </div>
             </div>
