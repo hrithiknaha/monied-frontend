@@ -12,6 +12,9 @@ import AccountPage from "./pages/AccountPage";
 import IncomesPage from "./pages/IncomesPage";
 import ExpensesPage from "./pages/ExpensesPage";
 import RepaymentsPage from "./pages/RepaymentsPage";
+import IncomeDetails from "./pages/IncomeDetails";
+import ExpenseDetails from "./pages/ExpenseDetails";
+import RepaymentDetails from "./pages/RepaymentDetails";
 
 const App = () => {
     const auth = useSelector(getUserAuth);
@@ -24,10 +27,13 @@ const App = () => {
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
 
-                    <Route path="/accounts/:accountId" element={<AccountPage />} />
-                    <Route path="/incomes" element={<IncomesPage />} />
-                    <Route path="/expenses" element={<ExpensesPage />} />
-                    <Route path="/repayments" element={<RepaymentsPage />} />
+                    <Route path="accounts/:accountId" element={<AccountPage />} />
+                    <Route path="incomes" element={<IncomesPage />} />
+                    <Route path="incomes/:incomeId" element={<IncomeDetails />} />
+                    <Route path="expenses" element={<ExpensesPage />} />
+                    <Route path="expenses/:expenseId" element={<ExpenseDetails />} />
+                    <Route path="repayments" element={<RepaymentsPage />} />
+                    <Route path="repayments/:repaymentId" element={<RepaymentDetails />} />
                 </Route>
             </Routes>
         </Router>

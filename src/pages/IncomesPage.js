@@ -18,7 +18,6 @@ const IncomesPage = () => {
         axiosInstance.get("/api/incomes").then(({ data }) => {
             setIncomes(data.data);
             setIsLoading(false);
-            console.log(data);
         });
     }, []);
 
@@ -29,7 +28,7 @@ const IncomesPage = () => {
                     <p>Loading...</p>
                 ) : (
                     <div className="mt-6">
-                        <h2 className="text-xl font-semibold bg-green-500 text-white py-2 pl-4">All Incomes</h2>
+                        <h2 className="text-gray-600 text-xl font-semibold text-center">All Incomes</h2>
                         <IncomeTable incomes={incomes} />
                     </div>
                 )}

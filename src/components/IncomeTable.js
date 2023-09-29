@@ -1,29 +1,30 @@
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const IncomeTable = ({ incomes }) => {
     return (
-        <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+        <div className="bg-white shadow-md rounded-lg my-6 overflow-x-auto">
+            <table className="min-w-max divide-y divide-gray-200 w-full">
+                <thead className="bg-green-500">
                     <tr>
                         <th
                             scope="col"
-                            className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            className="px-2 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Name
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            className="px-2 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Amount
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            className="px-2 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Date
                         </th>
                         <th
                             scope="col"
-                            className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            className="px-2 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                             Account
                         </th>
                     </tr>
@@ -34,12 +35,20 @@ const IncomeTable = ({ incomes }) => {
                         .map((income) => {
                             return (
                                 <tr key={income._id}>
-                                    <td className="px-2 py-4 whitespace-nowrap">{income.name}</td>
-                                    <td className="px-2 py-4 whitespace-nowrap">₹{income.amount}</td>
-                                    <td className="px-2 py-4 whitespace-nowrap">
+                                    <td className="text-sm px-2 py-4 whitespace-normal">
+                                        <Link
+                                            to={`/incomes/${income._id}`}
+                                            className="text-sm text-gray-900 hover:underline hover:text-blue-400">
+                                            {income.name}
+                                        </Link>
+                                    </td>
+                                    <td className="text-sm px-2 py-4 whitespace-normal">₹{income.amount}</td>
+                                    <td className="text-sm px-2 py-4 whitespace-normal">
                                         {moment(income.transaction_date).format("DD-MM-YYYY")}
                                     </td>
-                                    <td className="px-2 py-4 whitespace-nowrap">{income.account.account_name}</td>
+                                    <td className="text-sm px-2 py-4 whitespace-normal">
+                                        {income.account.account_name}
+                                    </td>
                                 </tr>
                             );
                         })}
