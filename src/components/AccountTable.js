@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 const AccountTable = ({ account }) => {
     return (
@@ -24,7 +24,13 @@ const AccountTable = ({ account }) => {
             </thead>
             <tbody>
                 <tr>
-                    <td className="text-left text-sm px-2 py-4 whitespace-normal">{account.account_name}</td>
+                    <td className="text-left text-sm px-2 py-4 whitespace-normal">
+                        <Link
+                            to={`/accounts/${account._id}`}
+                            className="text-sm text-gray-900 hover:underline hover:text-blue-400">
+                            {account.account_name}
+                        </Link>
+                    </td>
                     <td className="text-left text-sm px-2 py-4 whitespace-normal">{account.account_type}</td>
                     <td className="text-left text-sm px-2 py-4 whitespace-normal">{account.account_entity_name}</td>
                 </tr>

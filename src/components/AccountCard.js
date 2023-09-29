@@ -1,5 +1,6 @@
 import { AiFillBank } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { formatIndianCurrency } from "../configs/helpers";
 
 const AccountCard = ({ account }) => {
     return (
@@ -9,7 +10,7 @@ const AccountCard = ({ account }) => {
                 {account.name}
             </h3>
             <p className="text-xs text-gray-600">{account.entity_name}</p>
-            <p className="pt-2 text-lg">₹{account.balance}</p>
+            <p className="pt-2 text-lg">₹{formatIndianCurrency(account.balance)}</p>
         </Link>
     );
 };

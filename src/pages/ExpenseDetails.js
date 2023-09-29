@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
+
+import { formatIndianCurrency } from "../configs/helpers";
 
 import AccountTable from "../components/AccountTable";
 
@@ -36,9 +38,12 @@ const ExpenseDetails = () => {
                             <div className="flex flex-col gap-4 items-center justify-between text-center">
                                 <div className="text-4xl">{expense.name}</div>
                                 <div className="bg-green-500 px-4 py-1 rounded-lg shadow-md text-white flex gap-4 items-center justify-between">
-                                    <div className="text-lg font-semibold">{expense.amount}</div>
+                                    <div className="text-lg font-semibold">₹{formatIndianCurrency(expense.amount)}</div>
                                     <div className="text-sm opacity-80">
                                         {moment(expense.transaction_date).format("DD-MM-YY")}
+                                    </div>
+                                    <div className="text-lg font-semibold">
+                                        <Link to={`/categories/${expense.category._id}`}>{expense.categoryTitle}</Link>
                                     </div>
                                 </div>
 

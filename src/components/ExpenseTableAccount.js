@@ -1,5 +1,6 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { formatIndianCurrency } from "../configs/helpers";
 
 const ExpenseTable = ({ expenses, account }) => {
     return (
@@ -47,8 +48,16 @@ const ExpenseTable = ({ expenses, account }) => {
                                             {expense.name}
                                         </Link>
                                     </td>
-                                    <td className="text-sm px-2 py-4 whitespace-normal">₹{expense.amount}</td>
-                                    <td className="text-sm px-2 py-4 whitespace-normal">{expense.category}</td>
+                                    <td className="text-sm px-2 py-4 whitespace-normal">
+                                        ₹{formatIndianCurrency(expense.amount)}
+                                    </td>
+                                    <td className="text-sm px-2 py-4 whitespace-normal">
+                                        <Link
+                                            to={`/categories/${expense.category._id}`}
+                                            className="text-sm text-gray-900 hover:underline hover:text-blue-400">
+                                            {expense.categoryTitle}
+                                        </Link>
+                                    </td>
                                     <td className="text-sm px-2 py-4 whitespace-normal">
                                         {moment(expense.transaction_date).format("DD-MM-YYYY")}
                                     </td>

@@ -6,6 +6,8 @@ import moment from "moment";
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
 
+import { formatIndianCurrency } from "../configs/helpers";
+
 import AccountTable from "../components/AccountTable";
 
 const RepaymentDetails = () => {
@@ -36,7 +38,9 @@ const RepaymentDetails = () => {
                             <div className="flex flex-col gap-4 items-center justify-between text-center">
                                 <div className="text-4xl">{repayment.name}</div>
                                 <div className="bg-green-500 px-4 py-1 rounded-lg shadow-md text-white flex gap-4 items-center justify-between">
-                                    <div className="text-lg font-semibold">{repayment.amount}</div>
+                                    <div className="text-lg font-semibold">
+                                        ₹{formatIndianCurrency(repayment.amount)}
+                                    </div>
                                     <div className="text-sm opacity-80">
                                         {moment(repayment.transaction_date).format("DD-MM-YY")}
                                     </div>

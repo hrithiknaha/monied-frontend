@@ -1,5 +1,6 @@
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { formatIndianCurrency } from "../configs/helpers";
 
 const CreditCard = ({ creditcard }) => {
     return (
@@ -9,7 +10,7 @@ const CreditCard = ({ creditcard }) => {
                 {creditcard.name}
             </h3>
             <p className="text-xs text-gray-600">{creditcard.entity_name}</p>
-            <p className="pt-2 text-lg">₹{creditcard.amount_due}</p>
+            <p className="pt-2 text-lg">₹{formatIndianCurrency(creditcard.amount_due)}</p>
         </Link>
     );
 };

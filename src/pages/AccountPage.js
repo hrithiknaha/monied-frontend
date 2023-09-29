@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
+import { formatIndianCurrency } from "../configs/helpers";
 
 import ExpenseTableAccount from "../components/ExpenseTableAccount";
 import IncomeTableAccount from "../components/IncomeTableAccount";
@@ -66,7 +67,7 @@ const AccountPage = () => {
 
                                 {account.type === "BANK" ? (
                                     <div>
-                                        <p className="pt-4 text-4xl">₹{account.balance}</p>
+                                        <p className="pt-4 text-4xl">₹{formatIndianCurrency(account.balance)}</p>
                                         <div className="flex justify-between items-center my-4">
                                             <button
                                                 onClick={() => setopenAccountIncomeModal(true)}
