@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
 
-import ExpenseTable from "../components/ExpenseTable";
-import IncomeTable from "../components/IncomeTable";
-import RepaymentTable from "../components/RepaymentTable";
+import ExpenseTableAccount from "../components/ExpenseTableAccount";
+import IncomeTableAccount from "../components/IncomeTableAccount";
+import RepaymentTableAccount from "../components/RepaymentTableAccount";
 import AccountExpenseModal from "../components/AccountExpenseModal";
 import AccountIncomeModal from "../components/AccountIncomeModal";
 import AccountRepaymentModal from "../components/AccountRepaymentModal";
@@ -127,20 +127,18 @@ const AccountPage = () => {
                             )}
                         </div>
                         <div className="mt-6">
-                            <h2 className="text-xl font-semibold bg-green-500 text-white py-2 pl-4">All Expenses</h2>
-                            <ExpenseTable expenses={account.expenses} />
+                            <h2 className="text-gray-600 text-xl font-semibold text-center">All Expenses</h2>
+                            <ExpenseTableAccount expenses={account.expenses} account={account} />
                         </div>
                         {account.type === "BANK" ? (
                             <div className="mt-8">
-                                <h2 className="text-xl font-semibold bg-green-500 text-white py-2 pl-4">All Incomes</h2>
-                                <IncomeTable incomes={account.incomes} />
+                                <h2 className="text-gray-600 text-xl font-semibold text-center">All Incomes</h2>
+                                <IncomeTableAccount incomes={account.incomes} account={account} />
                             </div>
                         ) : (
                             <div className="mt-8">
-                                <h2 className="text-xl font-semibold bg-green-500 text-white py-2 pl-4">
-                                    All Repayments
-                                </h2>
-                                <RepaymentTable repayments={account.repayments} />
+                                <h2 className="text-gray-600 text-xl font-semibold text-center">All Repayments</h2>
+                                <RepaymentTableAccount repayments={account.repayments} account={account} />
                             </div>
                         )}
                     </div>
