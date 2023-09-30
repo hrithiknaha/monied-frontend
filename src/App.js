@@ -15,6 +15,8 @@ import RepaymentsPage from "./pages/RepaymentsPage";
 import IncomeDetails from "./pages/IncomeDetails";
 import ExpenseDetails from "./pages/ExpenseDetails";
 import RepaymentDetails from "./pages/RepaymentDetails";
+import CategoriesPage from "./pages/CategoriesPage";
+import CategoryDetails from "./pages/CategoryDetails";
 
 const App = () => {
     const auth = useSelector(getUserAuth);
@@ -34,6 +36,8 @@ const App = () => {
                     <Route path="expenses/:expenseId" element={<ExpenseDetails />} />
                     <Route path="repayments" element={<RepaymentsPage />} />
                     <Route path="repayments/:repaymentId" element={<RepaymentDetails />} />
+                    <Route path="categories" element={<CategoriesPage />} />
+                    <Route path="categories/:categoryId" element={<CategoryDetails />} />
                 </Route>
             </Routes>
         </Router>
