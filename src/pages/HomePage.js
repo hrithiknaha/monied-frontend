@@ -18,8 +18,6 @@ const HomePage = () => {
 
     const [addAccountModel, setAddAccountModel] = useState(false);
 
-    const [addAccountTrigger, setAddAccountTrigger] = useState();
-
     useEffect(() => {
         setIsLoading(true);
         const axiosInstance = axiosPrivateInstance(auth.token);
@@ -29,7 +27,7 @@ const HomePage = () => {
             setCreditCards(data.data.filter((account) => account.type === "CREDIT_CARD"));
             setIsLoading(false);
         });
-    }, [addAccountTrigger]);
+    }, []);
 
     return (
         <div className="min-h-screen  bg-gray-100">
@@ -49,7 +47,6 @@ const HomePage = () => {
                                 closeModal={setAddAccountModel}
                                 axiosPrivateInstance={axiosPrivateInstance}
                                 auth={auth}
-                                setAddAccountTrigger={setAddAccountTrigger}
                             />
                         )}
                         <div className="pt-4 flex flex-col gap-4">
