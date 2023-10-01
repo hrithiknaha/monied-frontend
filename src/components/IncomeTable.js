@@ -4,7 +4,7 @@ import { formatIndianCurrency } from "../configs/helpers";
 
 const IncomeTable = ({ incomes }) => {
     return (
-        <div className="bg-white shadow-md rounded-lg my-6 overflow-x-auto">
+        <div className="bg-white shadow-md rounded-lg my-4 overflow-x-auto">
             <table className="min-w-max divide-y divide-gray-200 w-full">
                 <thead className="bg-green-500">
                     <tr>
