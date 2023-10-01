@@ -52,11 +52,13 @@ const ExpenseTable = ({ expenses, account }) => {
                                         ₹{formatIndianCurrency(expense.amount)}
                                     </td>
                                     <td className="text-sm px-2 py-4 whitespace-normal">
-                                        <Link
-                                            to={`/categories/${expense.category._id}`}
-                                            className="text-sm text-gray-900 hover:underline hover:text-blue-400">
-                                            {expense.categoryTitle}
-                                        </Link>
+                                        {expense.category && (
+                                            <Link
+                                                to={`/categories/${expense.category._id}`}
+                                                className="text-sm text-gray-900 hover:underline hover:text-blue-400">
+                                                {expense.categoryTitle}
+                                            </Link>
+                                        )}
                                     </td>
                                     <td className="text-sm px-2 py-4 whitespace-normal">
                                         {moment(expense.transaction_date).format("DD-MM-YYYY")}
