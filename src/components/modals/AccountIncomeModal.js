@@ -1,38 +1,22 @@
 import { useState, useEffect } from "react";
 
-function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPrivateInstance, auth }) {
+function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth, trigger, setTrigger }) {
     const [name, setName] = useState("");
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState(null);
     const [date, setDate] = useState("");
-    const [category, setCategory] = useState("");
-
-    const [selectedCategoryMonthId, setSelectedCategoryMonthId] = useState("");
-    const [categoriesTitle, setCategoriesTitle] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const axiosInstance = axiosPrivateInstance(auth.token);
 
-        const payload = {
-            name,
-            amount: parseInt(amount),
-            date,
-            category_name: category,
-            account_id: accountId,
-            category_id: selectedCategoryMonthId,
-        };
+        const payload = { name, amount: parseInt(amount), date, account_id: accountId };
 
-        axiosInstance.post(`/api/expenses/add`, payload).then(({ data }) => {
+        axiosInstance.post(`/api/incomes/add`, payload).then(({ data }) => {
             closeModal(false);
-            window.location.reload(false);
+            setTrigger(!trigger);
         });
     };
-
-    useEffect(() => {
-        const categoryMonth = categoriesMonth.filter((category) => category._id === selectedCategoryMonthId)[0];
-        setCategoriesTitle(categoryMonth?.categories);
-    }, [selectedCategoryMonthId]);
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -56,7 +40,7 @@ function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPriv
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Expense Name"
+                            placeholder="Income Name"
                             required
                         />
                     </div>
@@ -71,7 +55,7 @@ function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPriv
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Expense Amount"
+                            placeholder="Income Amount"
                             required
                         />
                     </div>
@@ -88,49 +72,6 @@ function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPriv
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
-                    </div>
-
-                    <div className="mb-4">
-                        <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
-                            Category Month
-                        </label>
-                        <select
-                            id="categoryMonth"
-                            name="categoryMonth"
-                            value={selectedCategoryMonthId}
-                            onChange={(e) => setSelectedCategoryMonthId(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required>
-                            <option value="">Select a Category Month</option>
-                            {categoriesMonth.map((category) => {
-                                return (
-                                    <option key={category._id} value={category._id}>
-                                        {category.name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
-                            Category
-                        </label>
-                        <select
-                            id="category"
-                            name="category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required>
-                            <option value="">Select a Category</option>
-                            {categoriesTitle?.map((category) => {
-                                return (
-                                    <option key={category.title} value={category.title}>
-                                        {category.title}
-                                    </option>
-                                );
-                            })}
-                        </select>
                     </div>
                     <div className="flex justify-end">
                         <button
@@ -151,4 +92,4 @@ function AccountExpenseModal({ closeModal, categoriesMonth, accountId, axiosPriv
     );
 }
 
-export default AccountExpenseModal;
+export default AccountIncomeModal;

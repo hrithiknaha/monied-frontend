@@ -9,9 +9,9 @@ import { formatIndianCurrency } from "../configs/helpers";
 import ExpenseTableAccount from "../components/ExpenseTableAccount";
 import IncomeTableAccount from "../components/IncomeTableAccount";
 import RepaymentTableAccount from "../components/RepaymentTableAccount";
-import AccountExpenseModal from "../components/AccountExpenseModal";
-import AccountIncomeModal from "../components/AccountIncomeModal";
-import AccountRepaymentModal from "../components/AccountRepaymentModal";
+import AccountExpenseModal from "../components/modals/AccountExpenseModal";
+import AccountIncomeModal from "../components/modals/AccountIncomeModal";
+import AccountRepaymentModal from "../components/modals/AccountRepaymentModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const AccountPage = () => {
@@ -27,15 +27,17 @@ const AccountPage = () => {
     const [openAccountExpenseModal, setopenAccountExpenseModal] = useState(false);
     const [openAccountIncomeModal, setopenAccountIncomeModal] = useState(false);
     const [openAccountRepaymentModal, setopenAccountRepaymentModal] = useState(false);
+    const [apiTrigger, setApiTrigger] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         const axiosInstance = axiosPrivateInstance(auth.token);
 
         axiosInstance.get(`/api/accounts/${accountId}`).then(({ data }) => {
             setAccount(data.data);
             setIsLoading(false);
         });
-    }, []);
+    }, [apiTrigger]);
 
     useEffect(() => {
         const axiosInstance = axiosPrivateInstance(auth.token);
@@ -107,6 +109,8 @@ const AccountPage = () => {
                                     accountId={accountId}
                                     axiosPrivateInstance={axiosPrivateInstance}
                                     auth={auth}
+                                    trigger={apiTrigger}
+                                    setTrigger={setApiTrigger}
                                 />
                             )}
                             {openAccountExpenseModal && (
@@ -116,6 +120,8 @@ const AccountPage = () => {
                                     accountId={accountId}
                                     axiosPrivateInstance={axiosPrivateInstance}
                                     auth={auth}
+                                    trigger={apiTrigger}
+                                    setTrigger={setApiTrigger}
                                 />
                             )}
                             {openAccountRepaymentModal && (
@@ -125,6 +131,8 @@ const AccountPage = () => {
                                     accountId={accountId}
                                     axiosPrivateInstance={axiosPrivateInstance}
                                     auth={auth}
+                                    trigger={apiTrigger}
+                                    setTrigger={setApiTrigger}
                                 />
                             )}
                         </div>

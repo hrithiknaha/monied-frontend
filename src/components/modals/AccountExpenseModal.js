@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
 
-function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateInstance, auth }) {
+function AccountExpenseModal({
+    closeModal,
+    categoriesMonth,
+    accountId,
+    axiosPrivateInstance,
+    auth,
+    trigger,
+    setTrigger,
+}) {
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
-    const [repaymentFromAccount, setRepaymentFromAccount] = useState("");
+    const [category, setCategory] = useState("");
+
+    const [selectedCategoryMonthId, setSelectedCategoryMonthId] = useState("");
+    const [categoriesTitle, setCategoriesTitle] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,19 +26,24 @@ function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateIn
             name,
             amount: parseInt(amount),
             date,
-            account_id: repaymentFromAccount,
-            repayment_account_id: accountId,
+            category_name: category,
+            account_id: accountId,
+            category_id: selectedCategoryMonthId,
         };
 
-        axiosInstance.post(`/api/repayments/add`, payload).then(({ data }) => {
+        axiosInstance.post(`/api/expenses/add`, payload).then(({ data }) => {
             closeModal(false);
-            window.location.reload(false);
+            setTrigger(!trigger);
         });
     };
 
     useEffect(() => {
-        document.body.style.overflow = "hidden";
+        const categoryMonth = categoriesMonth.filter((category) => category._id === selectedCategoryMonthId)[0];
+        setCategoriesTitle(categoryMonth?.categories);
+    }, [selectedCategoryMonthId]);
 
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
         return () => {
             document.body.style.overflow = "auto";
         };
@@ -48,7 +64,7 @@ function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateIn
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Repayment Name"
+                            placeholder="Expense Name"
                             required
                         />
                     </div>
@@ -63,7 +79,7 @@ function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateIn
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Repayment Amount"
+                            placeholder="Expense Amount"
                             required
                         />
                     </div>
@@ -81,22 +97,44 @@ function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateIn
                             required
                         />
                     </div>
+
                     <div className="mb-4">
                         <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
-                            Account
+                            Category Month
                         </label>
                         <select
-                            id="account"
-                            name="account"
-                            value={repaymentFromAccount}
-                            onChange={(e) => setRepaymentFromAccount(e.target.value)}
+                            id="categoryMonth"
+                            name="categoryMonth"
+                            value={selectedCategoryMonthId}
+                            onChange={(e) => setSelectedCategoryMonthId(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required>
-                            <option value="">Select Account</option>
-                            {accounts.map((account) => {
+                            <option value="">Select a Category Month</option>
+                            {categoriesMonth.map((category) => {
                                 return (
-                                    <option key={account._id} value={account._id}>
-                                        {account.name}
+                                    <option key={category._id} value={category._id}>
+                                        {category.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
+                            Category
+                        </label>
+                        <select
+                            id="category"
+                            name="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required>
+                            <option value="">Select a Category</option>
+                            {categoriesTitle?.map((category) => {
+                                return (
+                                    <option key={category.title} value={category.title}>
+                                        {category.title}
                                     </option>
                                 );
                             })}
@@ -121,4 +159,4 @@ function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateIn
     );
 }
 
-export default AccountRepaymentModal;
+export default AccountExpenseModal;

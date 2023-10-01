@@ -7,7 +7,7 @@ import AccountCard from "../components/AccountCard";
 import CreditCard from "../components/CreditCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-import AddAccountModal from "../components/AddAccountModal";
+import AddAccountModal from "../components/modals/AddAccountModal";
 
 const HomePage = () => {
     const auth = useSelector(getUserAuth);
@@ -17,6 +17,7 @@ const HomePage = () => {
     const [creditCards, setCreditCards] = useState([]);
 
     const [addAccountModel, setAddAccountModel] = useState(false);
+    const [apiTrigger, setApiTrigger] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -27,7 +28,7 @@ const HomePage = () => {
             setCreditCards(data.data.filter((account) => account.type === "CREDIT_CARD"));
             setIsLoading(false);
         });
-    }, []);
+    }, [apiTrigger]);
 
     return (
         <div className="min-h-screen  bg-gray-100">
@@ -47,6 +48,8 @@ const HomePage = () => {
                                 closeModal={setAddAccountModel}
                                 axiosPrivateInstance={axiosPrivateInstance}
                                 auth={auth}
+                                trigger={apiTrigger}
+                                setTrigger={setApiTrigger}
                             />
                         )}
                         <div className="pt-4 flex flex-col gap-4">

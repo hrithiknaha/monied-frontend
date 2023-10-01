@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function AddAccountModal({ closeModal, axiosPrivateInstance, auth }) {
+function AddAccountModal({ closeModal, axiosPrivateInstance, auth, trigger, setTrigger }) {
     const [accountName, setAccountName] = useState("");
     const [openingBalance, setOpeningBalance] = useState(0);
     const [accountType, setAccountType] = useState("");
@@ -20,7 +20,7 @@ function AddAccountModal({ closeModal, axiosPrivateInstance, auth }) {
 
         axiosInstance.post(`/api/accounts/add`, payload).then(({ data }) => {
             closeModal(false);
-            window.location.reload(false);
+            setTrigger(!trigger);
         });
     };
 

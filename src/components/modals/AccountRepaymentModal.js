@@ -1,25 +1,33 @@
 import { useState, useEffect } from "react";
 
-function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth }) {
+function AccountRepaymentModal({ closeModal, accounts, accountId, axiosPrivateInstance, auth, trigger, setTrigger }) {
     const [name, setName] = useState("");
-    const [amount, setAmount] = useState(null);
+    const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
+    const [repaymentFromAccount, setRepaymentFromAccount] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const axiosInstance = axiosPrivateInstance(auth.token);
 
-        const payload = { name, amount: parseInt(amount), date, account_id: accountId };
+        const payload = {
+            name,
+            amount: parseInt(amount),
+            date,
+            account_id: repaymentFromAccount,
+            repayment_account_id: accountId,
+        };
 
-        axiosInstance.post(`/api/incomes/add`, payload).then(({ data }) => {
+        axiosInstance.post(`/api/repayments/add`, payload).then(({ data }) => {
             closeModal(false);
-            window.location.reload(false);
+            setTrigger(!trigger);
         });
     };
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
+
         return () => {
             document.body.style.overflow = "auto";
         };
@@ -40,7 +48,7 @@ function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth 
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Income Name"
+                            placeholder="Repayment Name"
                             required
                         />
                     </div>
@@ -55,7 +63,7 @@ function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth 
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Income Amount"
+                            placeholder="Repayment Amount"
                             required
                         />
                     </div>
@@ -72,6 +80,27 @@ function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth 
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
+                            Account
+                        </label>
+                        <select
+                            id="account"
+                            name="account"
+                            value={repaymentFromAccount}
+                            onChange={(e) => setRepaymentFromAccount(e.target.value)}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required>
+                            <option value="">Select Account</option>
+                            {accounts.map((account) => {
+                                return (
+                                    <option key={account._id} value={account._id}>
+                                        {account.name}
+                                    </option>
+                                );
+                            })}
+                        </select>
                     </div>
                     <div className="flex justify-end">
                         <button
@@ -92,4 +121,4 @@ function AccountIncomeModal({ closeModal, accountId, axiosPrivateInstance, auth 
     );
 }
 
-export default AccountIncomeModal;
+export default AccountRepaymentModal;
