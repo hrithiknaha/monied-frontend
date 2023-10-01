@@ -9,13 +9,18 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import AddCategoryModal from "../components/modals/AddCategoryModal";
 
 const CategoriesPage = () => {
-    const [categories, setCategories] = useState({});
+    const auth = useSelector(getUserAuth);
+
+    const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const [addCategoryModal, setAddCategoryModal] = useState(false);
     const [apiTrigger, setApiTrigger] = useState(false);
 
-    const auth = useSelector(getUserAuth);
+    const [filteredCategories, setFilteredCategories] = useState([]);
+
+    const [categoryYears, setCategoryYears] = useState([]);
+    const [selectedCategoryYear, setSelectedCategoryYear] = useState(moment(Date.now()).utc().year());
 
     useEffect(() => {
         setIsLoading(true);
@@ -24,8 +29,34 @@ const CategoriesPage = () => {
         axiosInstance.get(`/api/categories`).then(({ data }) => {
             setCategories(data.data);
             setIsLoading(false);
+
+            const categoryYears = data.data.map((category) => {
+                return moment(category.start_date).utc().year();
+            });
+
+            setCategoryYears([...new Set(categoryYears.reverse())]);
         });
     }, [apiTrigger]);
+
+    useEffect(() => {
+        const filterCategory = () => {
+            if (selectedCategoryYear === "all") {
+                setFilteredCategories(categories);
+            } else {
+                const filteredData = categories.filter((item) => {
+                    const itemDate = moment(item.start_date);
+
+                    const itemYear = itemDate.year();
+
+                    return selectedCategoryYear === "all" || itemYear === parseInt(selectedCategoryYear);
+                });
+
+                setFilteredCategories(filteredData);
+            }
+        };
+
+        filterCategory();
+    }, [categories, selectedCategoryYear]);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -40,6 +71,30 @@ const CategoriesPage = () => {
                             Add Category
                         </button>
 
+                        <div className="flex gap-4 justify-center mt-8">
+                            <div className="flex gap-2 items-center mb-4">
+                                <label htmlFor="categoryYears" className="block text-gray-700 font-bold">
+                                    Year
+                                </label>
+                                <select
+                                    id="categoryYears"
+                                    name="categoryYears"
+                                    value={selectedCategoryYear}
+                                    onChange={(e) => setSelectedCategoryYear(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required>
+                                    <option value="all">All</option>
+                                    {categoryYears.map((year) => {
+                                        return (
+                                            <option key={year} value={year}>
+                                                {year}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+
                         {addCategoryModal && (
                             <AddCategoryModal
                                 closeModal={setAddCategoryModal}
@@ -50,7 +105,7 @@ const CategoriesPage = () => {
                             />
                         )}
                         <div className="pt-4 flex flex-wrap gap-2 justify-between">
-                            {categories.map((category) => {
+                            {filteredCategories.map((category) => {
                                 return (
                                     <Link
                                         to={`/categories/${category._id}`}
