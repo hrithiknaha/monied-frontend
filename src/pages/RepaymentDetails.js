@@ -9,6 +9,7 @@ import { getUserAuth } from "../redux/features/auth/authSlice";
 import { formatIndianCurrency } from "../configs/helpers";
 
 import AccountTable from "../components/AccountTable";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const RepaymentDetails = () => {
     const { repaymentId } = useParams();
@@ -31,7 +32,7 @@ const RepaymentDetails = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="container mx-auto py-4 lg:py-12">
                         <div className="bg-white shadow-md rounded-lg p-4">

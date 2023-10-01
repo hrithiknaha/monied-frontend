@@ -5,6 +5,7 @@ import { getUserAuth } from "../redux/features/auth/authSlice";
 import { axiosPrivateInstance } from "../configs/axios";
 
 import IncomeTable from "../components/IncomeTable";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const IncomesPage = () => {
     const auth = useSelector(getUserAuth);
@@ -25,7 +26,7 @@ const IncomesPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="mt-6">
                         <h2 className="text-gray-600 text-xl font-semibold text-center">All Incomes</h2>

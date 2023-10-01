@@ -12,6 +12,7 @@ import RepaymentTableAccount from "../components/RepaymentTableAccount";
 import AccountExpenseModal from "../components/AccountExpenseModal";
 import AccountIncomeModal from "../components/AccountIncomeModal";
 import AccountRepaymentModal from "../components/AccountRepaymentModal";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const AccountPage = () => {
     const { accountId } = useParams();
@@ -52,7 +53,7 @@ const AccountPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="">
                         <div className="bg-white shadow-md rounded-lg p-4">

@@ -5,6 +5,7 @@ import moment from "moment";
 
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState({});
@@ -26,7 +27,7 @@ const CategoriesPage = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="container mx-auto py-4 lg:py-12">
                         <div className="flex flex-wrap gap-2 justify-between">

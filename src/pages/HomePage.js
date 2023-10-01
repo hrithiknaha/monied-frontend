@@ -5,6 +5,7 @@ import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
 import AccountCard from "../components/AccountCard";
 import CreditCard from "../components/CreditCard";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const HomePage = () => {
     const auth = useSelector(getUserAuth);
@@ -27,7 +28,7 @@ const HomePage = () => {
         <div className="min-h-screen  bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="pt-4 flex flex-col gap-4">
                         <div className="flex flex-wrap gap-2 justify-between">

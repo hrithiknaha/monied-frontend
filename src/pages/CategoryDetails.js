@@ -7,6 +7,7 @@ import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
 
 import { formatIndianCurrency } from "../configs/helpers";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const CategoryDetails = () => {
     const { categoryId } = useParams();
@@ -29,7 +30,7 @@ const CategoryDetails = () => {
         <div className="min-h-screen bg-gray-100">
             <div className="py-4 mx-auto container px-4">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <LoadingSpinner />
                 ) : (
                     <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
                         <h1 className="text-2xl font-semibold mb-4">{category.name}</h1>
