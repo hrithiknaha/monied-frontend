@@ -8,7 +8,6 @@ import { getUserAuth } from "../redux/features/auth/authSlice";
 
 import { formatIndianCurrency } from "../configs/helpers";
 
-import AccountTable from "../components/AccountTable";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const ExpenseDetails = () => {
