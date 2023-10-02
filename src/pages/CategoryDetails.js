@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 
 import { axiosPrivateInstance } from "../configs/axios";
 import { getUserAuth } from "../redux/features/auth/authSlice";
@@ -11,11 +12,12 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 const CategoryDetails = () => {
     const { categoryId } = useParams();
+    const auth = useSelector(getUserAuth);
 
     const [category, setCategory] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    const auth = useSelector(getUserAuth);
+    const [expandedCategories, setExpandedCategories] = useState({});
 
     useEffect(() => {
         const axiosInstance = axiosPrivateInstance(auth.token);
@@ -25,6 +27,13 @@ const CategoryDetails = () => {
             setIsLoading(false);
         });
     }, [categoryId]);
+
+    const toggleCategoryExpansion = (categoryId) => {
+        setExpandedCategories((prevState) => ({
+            ...prevState,
+            [categoryId]: !prevState[categoryId],
+        }));
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -62,21 +71,60 @@ const CategoryDetails = () => {
                                             : "text-red-500";
 
                                     return (
-                                        <li key={index} className="flex justify-between items-center">
-                                            <div>
-                                                <span>{item.title}</span>
-                                                <span className="text-gray-600 text-xs ml-2">
-                                                    (₹{item.amountUsed} / ₹{item.amount})
-                                                </span>
+                                        <li key={index} className="flex flex-col">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex flex-col items-center">
+                                                    <div className="flex items-center">
+                                                        <div className="flex items-center gap-1">
+                                                            <button onClick={() => toggleCategoryExpansion(item._id)}>
+                                                                {expandedCategories[item._id] ? (
+                                                                    <AiOutlineArrowUp />
+                                                                ) : (
+                                                                    <AiOutlineArrowDown />
+                                                                )}
+                                                            </button>
+                                                            <span>{item.title}</span>
+                                                        </div>
+                                                        <span className="text-gray-600 text-xs ml-2">
+                                                            (₹{item.amountUsed} / ₹{item.amount})
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <div
+                                                        className={`w-16 h-2 rounded-full bg-${colorClass}`}
+                                                        style={{ width: `${percentageUsed}%` }}></div>
+                                                    <span className={`ml-2 ${colorClass}`}>
+                                                        {percentageUsed.toFixed(1)}%
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div className="flex items-center">
-                                                <div
-                                                    className={`w-16 h-2 rounded-full bg-${colorClass}`}
-                                                    style={{ width: `${percentageUsed}%` }}></div>
-                                                <span className={`ml-2 ${colorClass}`}>
-                                                    {percentageUsed.toFixed(1)}%
-                                                </span>
-                                            </div>
+                                            {expandedCategories[item._id] && (
+                                                <div className="mb-4">
+                                                    <ul>
+                                                        {item.expenses.map((expense) => (
+                                                            <li
+                                                                key={index}
+                                                                className="flex justify-center items-center">
+                                                                <div>
+                                                                    <Link
+                                                                        to={`/expenses/${expense._id}`}
+                                                                        className="text-xs underline hover:text-green-500">
+                                                                        {expense.name}
+                                                                    </Link>
+                                                                    <span className="text-gray-600 text-xs ml-2">
+                                                                        (₹{expense.amount} on{" "}
+                                                                        {moment(expense.transaction_date).format(
+                                                                            "DD-MM-YYYY"
+                                                                        )}
+                                                                        )
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
                                         </li>
                                     );
                                 })}
