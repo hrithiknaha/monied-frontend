@@ -16,6 +16,7 @@ function AddCategoryModal({ closeModal, axiosPrivateInstance, auth, trigger, set
                     title: "",
                     amount: 0,
                     amountUsed: 0,
+                    expenses: [],
                 },
             ];
         });
