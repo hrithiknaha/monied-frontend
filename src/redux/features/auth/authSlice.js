@@ -39,7 +39,7 @@ const authSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(registerUser.fulfilled, (state, action) => {
-            const token = action.payload.accessToken;
+            const token = action.payload.data.accessToken;
             const { username, exp } = jwtDecode(token);
 
             localStorage.setItem("token", token);
