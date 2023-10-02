@@ -50,7 +50,9 @@ const IncomeDetails = () => {
                                         <tr>
                                             <td className="p-2 font-semibold border border-gray-300">Account Name:</td>
                                             <td className="p-2 text-gray-500 border border-gray-300">
-                                                <Link to={`/accounts/${income.account._id}`} className="underline">
+                                                <Link
+                                                    to={`/accounts/${income.account._id}`}
+                                                    className="underline hover:text-green-500">
                                                     {income.account.account_name}
                                                 </Link>
                                             </td>

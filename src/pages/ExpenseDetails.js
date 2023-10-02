@@ -49,7 +49,9 @@ const ExpenseDetails = () => {
                                         <tr>
                                             <td className="p-2 font-semibold border border-gray-300">Account Name:</td>
                                             <td className="p-2 text-gray-500 border border-gray-300">
-                                                <Link to={`/accounts/${expense.account._id}`} className="underline">
+                                                <Link
+                                                    to={`/accounts/${expense.account._id}`}
+                                                    className="underline hover:text-green-500">
                                                     {expense.account.account_name}
                                                 </Link>
                                             </td>
@@ -79,7 +81,9 @@ const ExpenseDetails = () => {
                                         <tr>
                                             <td className="p-2 font-semibold border border-gray-300">Category Name:</td>
                                             <td className="p-2 text-gray-500 border border-gray-300">
-                                                <Link to={`/categories/${expense.category._id}`} className="underline">
+                                                <Link
+                                                    to={`/categories/${expense.category._id}`}
+                                                    className="underline hover:text-green-500">
                                                     {expense.category.name}
                                                 </Link>
                                             </td>
